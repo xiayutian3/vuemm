@@ -90,7 +90,6 @@ router.post('/signup',async(ctx)=>{
 
 //登录的接口
 router.post('/signin',async(ctx,next)=>{
-  console.log(1111,)
   return Passport.authenticate('local',function(err,user,info,status){
     if(err){
       ctx.body = {
@@ -98,7 +97,6 @@ router.post('/signin',async(ctx,next)=>{
         msg:err
       }
     }else{
-      console.log('user',user)
       if(user){
         ctx.body = {
           code:0,
