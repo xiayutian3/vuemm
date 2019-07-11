@@ -1,7 +1,7 @@
 import Router from 'koa-router'
 // 解决向多人发送验证码，a拿到a的验证码，b拿到b的验证码，
 // 怎么知道a拿到的正确的验证码，b拿到的正确的验证码  （放在内存中不可取，内存会爆）
-// 存在数据库中，检查 一一对应
+// 存在Redis数据库中，检查 一一对应
 import Redis from 'koa-redis'
 import nodeMailer from 'nodemailer'
 import User from '../dbs/models/users'
@@ -9,7 +9,6 @@ import Passport from './utils/passport'
 // 因为最重要的是config的邮箱的东西，所以取名email
 import Email from '../dbs/config'
 import axios from './utils/axios'
-import { get } from 'mongoose';
 
 
 let router = new Router({
@@ -65,7 +64,7 @@ router.post('/signup',async(ctx)=>{
   }
   let nuser = await User.create({username,password,email})
   if(nuser){
-    let res = await axios.post('/user/signin',{username,password})
+    let res = await axios.post('/users/signin',{username,password})
     if(res.data && res.data.code === 0){
       ctx.body = {
         code:0,
@@ -91,6 +90,7 @@ router.post('/signup',async(ctx)=>{
 
 //登录的接口
 router.post('/signin',async(ctx,next)=>{
+  console.log(1111,)
   return Passport.authenticate('local',function(err,user,info,status){
     if(err){
       ctx.body = {
@@ -98,13 +98,14 @@ router.post('/signin',async(ctx,next)=>{
         msg:err
       }
     }else{
+      console.log('user',user)
       if(user){
         ctx.body = {
           code:0,
           msg:'登陆成功',
           user
         }
-        //做一个登录状态   是进行session存储，这里是存储到redis    这个login是封装在passport的，可以去那个源码中去看
+       /* //做一个登录状态   是进行session存储，这里是存储到redis    这个login是封装在passport的，可以去那个源码中去看*/
         return ctx.login(user)
       }else{
         ctx.body = {
@@ -119,10 +120,11 @@ router.post('/signin',async(ctx,next)=>{
 
 
 //验证码
-router.post('/verify',async(ctx,nex)=>{
+router.post('/verify',async(ctx,next)=>{
   let username = ctx.request.body.username
   const saveExpire = await Store.hget(`nodemail:${username}`,'expire')
   if(saveExpire && new Date().getTime()-saveExpire<0){
+console.log(saveExpire,new Date().getTime(),)
     ctx.body = {
       code:-1,
       msg:'验证请求过于频繁，1分钟内一次'
@@ -171,7 +173,7 @@ router.post('/verify',async(ctx,nex)=>{
 
 //退出
 router.get('/exit',async(ctx,next)=>{
-  await ctx.logout()
+  await ctx.logout()   //退出状态    这个logout是封装在passport的，可以去那个源码中去看
   if(!ctx.isAuthenticated()){  //检查登陆的状态
     ctx.body = {
       code:0,

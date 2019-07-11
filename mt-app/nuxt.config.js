@@ -32,11 +32,14 @@ module.exports = {
   */
   plugins: [
     '@/plugins/element-ui'
+    // {src:'~/plugins/element-ui',ssr: true}
   ],
   /*
   ** Nuxt.js modules
   */
   modules: [
+    //通过modules引进来的东西会直接挂再到实例的原型上边，可以通过 this.$axios 来使用
+    '@nuxtjs/axios'
   ],
   /*
   ** Build configuration

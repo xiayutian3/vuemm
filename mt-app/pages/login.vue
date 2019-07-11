@@ -51,22 +51,22 @@ export default {
   mounted(){},
   methods:{
     login(){
-    //   this.$axios.post('/users/signin',{
-    //     username:window.encodeURIComponent(this.username),
-    //     password:CryptoJS.MD5(self.password).toString()
-    //   }).then(({status,data}) => {
-    //     if(status == 200){
-    //       if(data && data.code ==0){
-    //         location.href = '/'
-    //       }else{
-    //         this.error = data.msg
-    //       }
-    //     }else{
-    //       this.error = '服务器出错'
-    //     }
-    //   }).catch((err) => {
-    //     console.log(err)
-    //   })
+      this.$axios.post('/users/signin',{
+        username:window.encodeURIComponent(this.username),   //处理编码，处理中文，如果不处理可能会收到乱码，以后对数据库查询不方便
+        password:CryptoJS.MD5(this.password).toString()     //CryptoJS.MD5()返回的是数组。toString转化为字符串
+      }).then(({status,data}) => {
+        if(status == 200){
+          if(data && data.code ==0){
+            window.location.href = '/'
+          }else{
+            this.error = data.msg
+          }
+        }else{
+          this.error = '服务器出错'
+        }
+      }).catch((err) => {
+        console.log(err)
+      })
     }
   },
   computed:{},

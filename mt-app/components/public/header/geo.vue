@@ -1,6 +1,7 @@
 <template>
   <div class="m-geo">
-    <i class="el-icon-location"/>北京市
+    <i class="el-icon-location"/>
+      {{cityName}}
       <nuxt-link
       class="changeCity"
       to="/changeCity">
@@ -20,7 +21,11 @@ export default {
   created(){},
   mounted(){},
   methods:{},
-  computed:{},
+  computed:{
+    cityName(){
+      return this.$store.state.geo.position.city?this.$store.state.geo.position.city:'南宁市'
+    }
+  },
   components:{},
   watch:{}
 }
