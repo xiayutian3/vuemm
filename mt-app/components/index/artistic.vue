@@ -49,27 +49,28 @@ export default {
   props:{},
   data(){
     return {
+      keyword:'景点',
       kind: 'all',
       list:{
         all: [
-          {
-            title:'kinglove金乐喜来登',
-            img:'//p0.meituan.net/msmerchant/7fed2224f3b8ac93de4f5cd29d0331fe113913.jpg@368w_208h_1e_1c',
-            pos:['这个好吃','味道还不错'],
-            price:100
-          },
-          {
-            title:'kinglove金乐喜来登',
-            img:'//p0.meituan.net/msmerchant/7fed2224f3b8ac93de4f5cd29d0331fe113913.jpg@368w_208h_1e_1c',
-            pos:['这个好吃','味道还不错'],
-            price:100
-          },
-          {
-            title:'kinglove金乐喜来登',
-            img:'//p0.meituan.net/msmerchant/7fed2224f3b8ac93de4f5cd29d0331fe113913.jpg@368w_208h_1e_1c',
-            pos:['这个好吃','味道还不错'],
-            price:100
-          },
+          // {
+          //   title:'kinglove金乐喜来登',
+          //   img:'//p0.meituan.net/msmerchant/7fed2224f3b8ac93de4f5cd29d0331fe113913.jpg@368w_208h_1e_1c',
+          //   pos:['这个好吃','味道还不错'],
+          //   price:100
+          // },
+          // {
+          //   title:'kinglove金乐喜来登',
+          //   img:'//p0.meituan.net/msmerchant/7fed2224f3b8ac93de4f5cd29d0331fe113913.jpg@368w_208h_1e_1c',
+          //   pos:['这个好吃','味道还不错'],
+          //   price:100
+          // },
+          // {
+          //   title:'kinglove金乐喜来登',
+          //   img:'//p0.meituan.net/msmerchant/7fed2224f3b8ac93de4f5cd29d0331fe113913.jpg@368w_208h_1e_1c',
+          //   pos:['这个好吃','味道还不错'],
+          //   price:100
+          // },
         ],
         part: [],
         spa: [],
@@ -78,16 +79,48 @@ export default {
       }
     }
   },
-  created(){},
+  created(){
+    this.over()
+  },
   mounted(){},
   methods:{
-    over(e){
+    async over(e){
       // console.log(e.target.nodeName.toLowerCase())
       // console.log(e.target.nodeName)
-      if(e.target.nodeName == 'DD'){
-         this.kind = e.target.getAttribute('kind')
+      if(!e){
+        this.getData()
+      }else if(e){
+        setTimeout(()=>{
+          if(e.target.nodeName == 'DD'){
+            this.kind = e.target.getAttribute('kind')
+            this.keyword = e.target.getAttribute('keyword')
+            this.getData()
+          }
+        },300)
       }
-     
+    },
+   async getData(){
+         // 请求数据
+      let {status,data:{count,pois}} = await this.$axios.get('/search/resultsByKeywords',{
+           params:{
+             keyword:this.keyword,
+             city:this.$store.state.geo.position.city
+           }
+         })
+         if(status ==200 && count >0){
+           let r = pois.filter(item=>item.photos.length).map(item=>{
+             return {
+               title:item.name,
+               pos:item.type.split(';')[0],
+               price:item.biz_ext.cost||'暂无',
+               img:item.photos[0].url,
+               url:'//abc.com'
+             }
+           })
+           this.list[this.kind] = r.slice(0,9)
+         }else{
+           this.list[this.kind] = []
+         }
     }
   },
   computed:{

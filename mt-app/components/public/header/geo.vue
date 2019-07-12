@@ -23,7 +23,7 @@ export default {
   methods:{},
   computed:{
     cityName(){
-      return this.$store.state.geo.position.city?this.$store.state.geo.position.city:'南宁市'
+      return this.$store.state.geo.position.city?this.$store.state.geo.position.city:'北京市'
     }
   },
   components:{},
