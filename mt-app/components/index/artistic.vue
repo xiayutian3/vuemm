@@ -79,10 +79,10 @@ export default {
       }
     }
   },
-  created(){
+  created(){},
+  mounted(){
     this.over()
   },
-  mounted(){},
   methods:{
     async over(e){
       // console.log(e.target.nodeName.toLowerCase())
@@ -90,13 +90,14 @@ export default {
       if(!e){
         this.getData()
       }else if(e){
-        setTimeout(()=>{
-          if(e.target.nodeName == 'DD'){
-            this.kind = e.target.getAttribute('kind')
-            this.keyword = e.target.getAttribute('keyword')
+        if(e.target.nodeName == 'DD'){
+          clearTimeout(this.timeout)
+          this.kind = e.target.getAttribute('kind')
+          this.keyword = e.target.getAttribute('keyword')
+          this.timeout = setTimeout(()=>{
             this.getData()
-          }
-        },300)
+          },200)
+        }
       }
     },
    async getData(){
