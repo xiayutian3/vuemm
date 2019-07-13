@@ -87,7 +87,7 @@ export default {
           this.isFocus = false
         },200)
     },
-    input:_.debounce(async function(){    //用lodash中的延时方法    用箭头函数//this undefined  
+    input:_.debounce(async function(){    //用lodash中的延时方法    不能用箭头函数// this undefined  
       //因为地理位置不在国内拿不到相应的位置，所以随便找了个位置  就北京吧
       // console.log(self.$store.state.geo.position.city)    ///position里边的city，province分别返回的是数组 []
 
