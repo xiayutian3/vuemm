@@ -1,11 +1,12 @@
 import Router from 'koa-router'
 import axios from './utils/axios'
 import Poi from '../dbs/models/poi'
+import sign from './utils/sign'
 
 let router = new Router({prefix:'/search'})
 
-//用来请求线上的数据用的
-const sign = 'e92cd69c339ad71aa749759794c5f23b'
+// //用来请求线上的数据用的
+// const sign = 'e92cd69c339ad71aa749759794c5f23b'
 
 router.get('/top',async(ctx)=>{
   let {status,data:{top}} = await axios.get(`http://cp-tools.cn/search/top`,{

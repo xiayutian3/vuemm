@@ -29,7 +29,7 @@
 
 <script>
 import _ from 'lodash'
-import { async } from 'q';
+import {mapActions} from 'vuex'
 export default {
   props: [],
 
@@ -59,6 +59,13 @@ export default {
   },
 
   methods: {
+    // 还可以这么写
+    // ...mapActions(['geo/setPosition']),
+    // this.['geo/setPosition'](city)
+
+    
+    ...mapActions('geo',['setPosition']),
+
     //延时处理 debounce函数   此处不能用箭头函数，找不到this
     querySearchAsync:_.debounce(async function(query,cb){   
       if(this.cities.length){
@@ -80,7 +87,9 @@ export default {
     },200),
     handleSelect(item){
       //美团官网是选中后跳转
-      console.log(item.value)
+      // console.log(item.value)
+      this.setPosition({province:'',city:item.value})
+      this.$router.push('/')
     }
   },
 
