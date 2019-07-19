@@ -16,7 +16,7 @@
 </template>
 
 <script>
-  import pyjs from 'js-pinyin'
+import pyjs from 'js-pinyin'
 export default {
   props: [],
 

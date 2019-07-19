@@ -7,7 +7,6 @@ import sign from './utils/sign'
 let router = new Router({prefix:'/categroy'})
 
 router.get('/crumbs',async(ctx)=>{
-  console.log('12132131')
   let {status,data:{areas,types}} = await axios.get('http://cp-tools.cn/categroy/crumbs',{
     params:{
       city:ctx.query.city.replace('市','') || '北京',

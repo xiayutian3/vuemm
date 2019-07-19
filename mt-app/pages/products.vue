@@ -29,7 +29,10 @@ export default {
   },
   created(){},
   mounted(){},
-  methods:{},
+  methods:{
+    //改变地图的位置
+    
+  },
   computed:{},
   components:{
     Crumbs,
@@ -80,4 +83,8 @@ export default {
 </script>
 <style lang="scss">
 @import '@/assets/css/products/index.scss';
+.page-product{
+  width: 1190px;
+  margin: 0 auto;
+}
 </style>

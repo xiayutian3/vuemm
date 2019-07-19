@@ -1,10 +1,10 @@
  <template>
-   <div class="m-products-list">
+   <div class="m-products-list" >
      <dl>
-       <dd v-for="item in nav" :key="item.name" :class="[item.name,item.acitve?'s-nav-active':'']" @click="navSelect">{{item.txt}}</dd>
+       <dd v-for="item in nav" :key="item.name" :class="[item.name,item.active?'s-nav-active':'']" @click="navSelect(item,$event)">{{item.txt}}</dd>
      </dl>
-     <ul>
-       <Item v-for="(item,idx) in list" :key="idx" :meta="item"></Item>
+     <ul ref="ulList">
+       <Item v-for="(item,idx) in lists" :key="idx" :meta="item"></Item>
      </ul>
    </div>
  </template>
@@ -26,7 +26,7 @@
         {
           name: 's-default',
           txt: '智能排序',
-          acitve: true
+          active: true
         }, {
           name: 's-price',
           txt: '价格最低',
@@ -44,17 +44,48 @@
      }
    },
    created(){},
-   mounted(){},
-   async asyncData({app}){
-     let {data} = await app.$axios.get('/searchList')
-     return {item:data.list}
+   mounted(){
+     const mapTops = []
+     let divTops = this.$refs.ulList.getElementsByClassName('s-item')
+     let firstTop = 0
+     mapTops.push(firstTop)
+      Array.from(divTops).forEach((item)=>{
+        // item.getBoundingClientReact().bottom
+      })
    },
+  //  async asyncData({app}){
+  //    let {data} = await app.$axios.get('/searchList')
+  //    return {list:data.list}
+  //  },
    methods:{
-    navSelect: function () {
-      console.log('select')
+    navSelect(one) {
+      // console.log('select')
+      this.nav.forEach((item)=>{
+          item.active = false
+      })
+      one.active = true
+      switch(one.txt){
+        case '智能排序':
+          this.lists.sort((a,b)=>a.name<b.name?1:-1)
+          break;
+        case '价格最低':
+          this.lists.sort((a,b)=>a.price>b.price?1:-1)
+          break;
+        case '人气最高':
+          this.lists.sort((a,b)=>a.rate<b.rate?1:-1)
+          break;
+        case '评价最高':
+          this.lists.sort((a,b)=>a.comment<b.comment?1:-1)
+          // console.log(this.list)
+          break;
+      }
     }
    },
-   computed:{},
+   computed:{
+     lists(){
+       return this.list
+     }
+   },
    components:{
      Item
    },
