@@ -53,7 +53,6 @@
   //  },
    methods:{
     navSelect(one) {
-      // console.log('select')
       this.nav.forEach((item)=>{
           item.active = false
       })
@@ -70,7 +69,6 @@
           break;
         case '评价最高':
           this.lists.sort((a,b)=>a.comment<b.comment?1:-1)
-          // console.log(this.list)
           break;
       }
     },
