@@ -6,7 +6,7 @@
       <list :list="list" @mapTops = "initMapTops"/>
     </el-col>
     <el-col :span="5">
-      <amap ref="fixedClass" :class="fixedClass" v-if="point.length"  :width="230" :height="290" :point="point"/>
+      <amap id="fixedClass" :class="fixedClass" v-if="point.length"  :width="230" :height="290" :point="point"/>
     </el-col>
   </el-row>
 </template>
