@@ -45,13 +45,7 @@
    },
    created(){},
    mounted(){
-     const mapTops = []
-     let divTops = this.$refs.ulList.getElementsByClassName('s-item')
-     let firstTop = 0
-     mapTops.push(firstTop)
-      Array.from(divTops).forEach((item)=>{
-        // item.getBoundingClientReact().bottom
-      })
+     this.initMmapTops()
    },
   //  async asyncData({app}){
   //    let {data} = await app.$axios.get('/searchList')
@@ -79,7 +73,20 @@
           // console.log(this.list)
           break;
       }
-    }
+    },
+    initMmapTops(){
+      const mapTops = []
+      let divTops = this.$refs.ulList.getElementsByClassName('s-item')
+      // let firstTop = divTops[0].getBoundingClientRect().bottom
+      let top = 0
+      mapTops.push(top)
+        Array.from(divTops).forEach((item)=>{
+          top = item.getBoundingClientRect().bottom
+          mapTops.push(top)
+        })
+        this.$emit('mapTops',mapTops)
+      }
+      
    },
    computed:{
      lists(){

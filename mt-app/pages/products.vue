@@ -3,10 +3,10 @@
     <el-col :span="19">
       <crumbs :keyword="keyword"/>
       <categroy :types="types" :areas="areas"/>
-      <list :list="list"/>
+      <list :list="list" @mapTops = "initMapTops"/>
     </el-col>
     <el-col :span="5">
-      <amap v-if="point.length"  :width="230" :height="290" :point="point"/>
+      <amap id="fixedClass" :class="fixedClass" v-if="point.length"  :width="230" :height="290" :point="point"/>
     </el-col>
   </el-row>
 </template>
@@ -24,14 +24,49 @@ export default {
       types:[],
       areas:[],
       keyword:'',
-      point:[]
+      point:[],
+      mapTops:[],
+      fixedClass:''
     }
   },
   created(){},
-  mounted(){},
+  mounted(){
+    // console.log('point',this.point)
+    console.log(this.list)
+    this.scroll()
+  },
   methods:{
-    //改变地图的位置
-    
+    //鼠标滚动监听 改变地图的位置
+
+    scroll() {
+      let amapTop = document.getElementById('fixedClass').getBoundingClientRect().top
+       var that = this
+       //为了保证兼容性，这里取两个值，哪个有值取哪一个
+        //scrollTop就是触发滚轮事件时滚轮的高度
+       window.onscroll = function() {
+        var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        console.log("滚动距离" + scrollTop);
+        // 地图fixed定位
+        // console.log(that.$refs.fixedClass)
+        if(scrollTop>=amapTop){
+          console.log(111)
+          that.fixedClass = 'fixedClass'
+        }else{
+           that.fixedClass = ''
+        }
+
+
+        let geoIndex = that.mapTops.findIndex((item,index)=>{
+
+          return scrollTop>=item && scrollTop<=that.mapTops[index+1]
+        })
+        //修改地图显示的位置
+        that.point = that.list[geoIndex].location.split(',')
+      }
+    },
+    initMapTops(mapTops){
+      this.mapTops = mapTops
+    }
   },
   computed:{},
   components:{
@@ -86,5 +121,10 @@ export default {
 .page-product{
   width: 1190px;
   margin: 0 auto;
+}
+.fixedClass{
+  position: fixed!important;
+  top: -35px;
+
 }
 </style>
