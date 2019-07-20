@@ -6,7 +6,9 @@
       <list :list="list" @mapTops = "initMapTops"/>
     </el-col>
     <el-col :span="5">
-      <amap id="fixedClass" :class="fixedClass" v-if="point.length"  :width="230" :height="290" :point="point"/>
+      <div ref="amapRef">
+        <amap  id="fixedClass" :class="fixedClass" v-if="point.length"  :width="230" :height="290" :point="point"/>
+      </div>
     </el-col>
   </el-row>
 </template>
@@ -37,9 +39,10 @@ export default {
     //鼠标滚动监听 改变地图的位置
 
     scroll() {
-      let amapTop = document.getElementById('fixedClass').getBoundingClientRect().top
-      // let amapTop = this.$refs.fixedClass.getBoundingClientRect().top  //用$refs后面直接getBoundingClientRect()，无法获取到，没有这个方法
+      // let amapTop = document.getElementById('fixedClass').getBoundingClientRect().top
+      let amapTop = this.$refs.amapRef.getBoundingClientRect().top  //如果地图组件直接加ref，后面直接getBoundingClientRect()，无法获取到，没有这个方法
       // console.log('amapTop',amapTop)
+      
        var that = this
        //为了保证兼容性，这里取两个值，哪个有值取哪一个
         //scrollTop就是触发滚轮事件时滚轮的高度
