@@ -36,6 +36,7 @@
         </div>
         <p class="suggest">
           <a :href="`/products?keyword=${encodeURIComponent(item.name)}`"  v-for="(item,index) in $store.state.home.hotPlace.slice(0,5)" :key="index">{{item.name}}</a>
+          <!-- <nuxt-link :to="{path: '/products', query: {keyword: encodeURIComponent(item.name)}}"  v-for="(item,index) in $store.state.home.hotPlace.slice(0,5)" :key="index">{{item.name}}</nuxt-link> -->
         </p>
         <ul class="nav">
           <li><nuxt-link
@@ -122,7 +123,11 @@ export default {
 
   },
   components:{},
-  watch:{}
+  watch:{
+    $route(newVal,oldVal){
+      console.log(newVal)
+    }
+  }
 }
 </script>
 <style lang="scss" >

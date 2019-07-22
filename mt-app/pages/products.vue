@@ -77,7 +77,7 @@ export default {
     List,
     Amap
   },
-  async asyncData(ctx){
+  async asyncData(ctx){   //页面首次加载执行，之后（使用router来跳转）就不在执行了，如果用a标签跳转就全部刷新，才会再次执行
     let keyword = ctx.query.keyword
     let city = ctx.store.state.geo.position.city
     let {status,data:{count,pois}} = await ctx.$axios.get('/search/resultsByKeywords',{
