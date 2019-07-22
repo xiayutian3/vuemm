@@ -10,7 +10,7 @@
         <summa :meta="product" />
       </el-col>
     </el-row>
-    <el-row>
+    <el-row class="m-title">
       <el-col :span="24"> 
         <h3>商家团购及优惠</h3>
       </el-col>
@@ -42,19 +42,45 @@ import Summa from '@/components/detail/summary.vue'
 import List from '@/components/detail/list.vue'
 export default {
   props:{},
-  data(){
-    return {
-      keyword:'',
-      type:'',
-      product:'',
-      list:[],
-      login:''
-    }
-  },
+  // 使用asyncData后，data数据基本没什么用了，因为是服务端渲染
+  // data(){
+  //   return {
+  //     keyword:'',
+  //     type:'',
+  //     product:'',
+  //     list:[],
+  //     login:''
+  //   }
+  // },
   created(){},
   mounted(){},
   async asyncData(ctx){
-    console.log(ctx)
+    // console.log(ctx)
+    let {keyword,type} = ctx.query
+    let {status,data:{product,more:list,login}} = await ctx.$axios.get('/search/products',{
+      params:{
+        keyword,
+        type,
+        city:ctx.store.state.geo.position.city
+      }
+    })
+    if(status == 200){
+      return {
+        keyword,
+        product,
+        type,
+        list,
+        login
+      }
+    }else{
+      return {
+        keyword,
+        product:{},
+        type,
+        list:[],
+        login:false
+      }
+    }
 
   },
   methods:{},

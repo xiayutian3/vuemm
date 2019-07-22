@@ -45,6 +45,9 @@ export default {
       sale: 70 + Math.floor(Math.random() * 300)
     }
   },
+  mounted(){
+    // console.log('meta',this.meta)
+  },
   computed: {
     rate: function () {
       return Number(this.meta.biz_ext.rating) || Math.floor(Math.random() * 5)

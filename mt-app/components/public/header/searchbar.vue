@@ -123,11 +123,11 @@ export default {
 
   },
   components:{},
-  watch:{
-    $route(newVal,oldVal){
-      console.log(newVal)
-    }
-  }
+  // watch:{
+  //   $route(newVal,oldVal){
+  //     console.log(newVal)
+  //   }
+  // }
 }
 </script>
 <style lang="scss" >
