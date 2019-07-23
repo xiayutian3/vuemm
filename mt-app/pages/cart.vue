@@ -37,7 +37,7 @@ export default {
     let {status,data:{code,data:{name,price}}} = await ctx.$axios.post('/cart/getCart',{
       id:ctx.query.id
     })
-    console.log(status,code,name,price)
+    // console.log(status,code,name,price)
     if(status==200&&code==0&&name){
       return {
         cart:[{
