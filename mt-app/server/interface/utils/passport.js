@@ -1,6 +1,7 @@
 //验证权限的一个好用的库
 import passport from 'koa-passport'
-import LocalStrategy from 'passport-local'
+// import LocalStrategy from 'passport-local'
+let LocalStrategy = require('passport-local').Strategy
 import UserModel from '../../dbs/models/users'
 
 passport.use(new LocalStrategy(async function(username,password,done){

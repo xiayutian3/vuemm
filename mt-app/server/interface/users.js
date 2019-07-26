@@ -62,6 +62,13 @@ router.post('/signup',async(ctx)=>{
     }
     return false
   }
+  // let newUser = new User({
+  //   username,
+  //   password,
+  //   email
+  // })
+  // let nuser = await newUser.save()
+
   let nuser = await User.create({username,password,email})
   if(nuser){
     let res = await axios.post('/users/signin',{username,password})
