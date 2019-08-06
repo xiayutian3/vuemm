@@ -1,6 +1,9 @@
 # mt-app
 
 > My stellar Nuxt.js project
+1、redis-server
+2、mongod
+3、npm run dev
 
 ## Build Setup
 
