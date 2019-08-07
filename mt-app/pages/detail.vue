@@ -53,7 +53,10 @@ export default {
   //   }
   // },
   created(){},
-  mounted(){},
+  mounted(){
+    //也可以拿到router参数  keyword, type 
+    // console.log('router',this.$route.query)
+  },
   async asyncData(ctx){
     // console.log(ctx)
     let {keyword,type} = ctx.query
