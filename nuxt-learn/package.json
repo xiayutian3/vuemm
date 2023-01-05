@@ -19,12 +19,12 @@
     "koa-router": "^7.4.0",
     "less": "^3.9.0",
     "less-loader": "^5.0.0",
-    "nuxt": "1.4.2",
+    "nuxt": "3.0.0",
     "source-map-support": "0.4.15"
   },
   "devDependencies": {
     "babel-eslint": "7.1.1",
-    "backpack-core": "0.3.0",
+    "backpack-core": "0.8.4",
     "eslint": "^3.19.0",
     "eslint-config-standard": "10.2.1",
     "eslint-loader": "1.9.0",
